@@ -115,7 +115,12 @@ def yearly(indi):
 
 
 def index(request):
-
+    x_li = []
+    y_li = []
+    avg = []
+    ss = []
+    avg_val = []
+    mois_val = []
     titre = ""
 
     if request.method == "POST":
