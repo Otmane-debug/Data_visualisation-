@@ -261,14 +261,14 @@ def fusion_graphs(request):
     t = []
     y = []
 
-    i = 0
     for e in l:
         tmp_1, tmp_2 = weekly(e, Fusion)
+        tmp_3, tmp_4 = trimestrely(e, Fusion)
+        tmp_5, tmp_6 = yearly(e, Fusion)
+
         week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        tmp_1, tmp_2 = trimestrely(e, Fusion)
-        tri = plot([Scatter(x=tmp_2, y=tmp_1, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        tmp_1, tmp_2 = yearly(e, Fusion)
-        year = plot([Scatter(x=tmp_2, y=tmp_1, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
 
         w.append(week)
         t.append(tri)
@@ -282,3 +282,85 @@ def fusion_graphs(request):
     }
 
     return render(request, 'main/graphs/fusion_g.html', context)
+
+def ccn_graphs(request):
+
+    l =[
+        "Conformité qualité d'eau : I.R < 4",
+        "Taux réalisation base COFI",
+        "Taux de réalisation rondes HF",
+        "Taux de fermeture de lignes CCM",
+        "Percée tundish, infiltration cnc Tundish",
+        "Nbr Réclamation Clients",
+        "Taux Billettes Ferraillées 12 m",
+        "Poff secteur (min/coulé)",
+        "Coût Réfractaire CCM Dh/Tbb",
+        "Consommation eau"
+    ]
+
+    w = []
+    t = []
+    y = []
+
+    for e in l:
+        tmp_1, tmp_2 = weekly(e, Ccn)
+        tmp_3, tmp_4 = trimestrely(e, Ccn)
+        tmp_5, tmp_6 = yearly(e, Ccn)
+
+        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+        w.append(week)
+        t.append(tri)
+        y.append(year)
+
+    context = {
+        "l": l,
+        "w": w,
+        "t": t,
+        "y": y, 
+    }
+
+
+    return render(request, "main/graphs/ccn_g.html", context)
+
+def auxiliaire_graphs(request):
+
+    l = [
+        "Taux d'humidité charbon",
+        "Taux réalisation base COFI",
+        "Taux de réalisation rondes HF",
+        "Taux de disponibilités ponts",
+        "Taux de disponibilités Poche & tundish",
+        "Incident réfrataire (chute, percée...)",
+        "Coût réfractaire four & poche",
+        "20 KV"
+    ]
+    
+    w = []
+    t = []
+    y = []
+
+    for e in l:
+        tmp_1, tmp_2 = weekly(e, Auxiliaire)
+        tmp_3, tmp_4 = trimestrely(e, Auxiliaire)
+        tmp_5, tmp_6 = yearly(e, Auxiliaire)
+
+        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+        w.append(week)
+        t.append(tri)
+        y.append(year)
+
+    context = {
+        "l": l,
+        "w": w,
+        "t": t,
+        "y": y, 
+    }
+
+    return render(request, 'main/graphs/auxiliaire_g.html', context)
+

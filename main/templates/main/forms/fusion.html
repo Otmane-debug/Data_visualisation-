@@ -50,9 +50,9 @@
     </div>
   </div>
   {% if ver == True %}
-    <div class="container">
+    <div class="container" style="margin-top:3%;">
       {% autoescape off %}
-          <h3>{{ titre }}</h3>
+          <h3 style="margin:2%;">{{ titre }}</h3>
           <h4>Weekly graph :</h4>
           {{ plot_mondays_div }}
           <h4>Trimester's graph :</h4>

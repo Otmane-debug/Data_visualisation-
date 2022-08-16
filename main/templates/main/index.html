@@ -36,7 +36,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="{% url 'ccm' %}">CCM</a>
-                      <a class="dropdown-item" href="#">Graphs</a>
+                      <a class="dropdown-item" href="{% url 'ccn_graphs' %}">Graphs</a>
                     </div>
                   </li>
                     <li class="nav-item dropdown">
@@ -45,22 +45,20 @@
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'auxiliaire' %}">Auxiliaire</a>
-                        <a class="dropdown-item" href="#">Graphs</a>
+                        <a class="dropdown-item" href="{% url 'auxiliaire_graphs' %}">Graphs</a>
                       </div>
                     </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
+              <form class="form-inline my-2 my-lg-0" method="GET">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" name="str_se" type="submit">Search</button>
               </form>
             </div>
           </nav>
     </header>
-    <div class="container">
-        {% block content %}
-            aaa
-        {% endblock %}
-    </div>
+    {% block content %}
+        aaa
+    {% endblock %}
     
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
