@@ -49,16 +49,18 @@
           </form>
     </div>
   </div>
-  <div class="container">
-    {% autoescape off %}
-        <h3>{{ titre }}</h3>
-        <h4>Weekly graph :</h4>
-        {{ plot_mondays_div }}
-        <h4>Trimester's graph :</h4>
-        {{ plot_trimester_div }}
-        <h4>Year graph :</h4>
-        {{ plot_year_div }}
-    {% endautoescape %}
-  </div>
+  {% if ver == True %}
+    <div class="container">
+      {% autoescape off %}
+          <h3>{{ titre }}</h3>
+          <h4>Weekly graph :</h4>
+          {{ plot_mondays_div }}
+          <h4>Trimester's graph :</h4>
+          {{ plot_trimester_div }}
+          <h4>Year graph :</h4>
+          {{ plot_year_div }}
+      {% endautoescape %}
+    </div>
+  {% endif %}
 
 {% endblock %}

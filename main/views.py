@@ -119,6 +119,7 @@ def fusion(request):
     avg_val = []
     mois_val = []
     titre = ""
+    ver = False
 
     if request.method == "POST":
         va = request.POST.get("value", False)
@@ -135,6 +136,7 @@ def fusion(request):
         avg_val, mois_val = yearly(ind, Fusion)
         
         titre = ind
+        ver = True
 
     plot_mondays_div = plot([Scatter(x=x_li, y=y_li, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
     plot_trimester_div = plot([Scatter(x=ss, y=avg, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
@@ -145,9 +147,10 @@ def fusion(request):
         "plot_trimester_div": plot_trimester_div,
         "plot_year_div": plot_year_div,
         "titre": titre,
+        "ver": ver,
     }
 
-    return render(request, "main/fusion.html", context)
+    return render(request, "main/forms/fusion.html", context)
 
 def ccm(request):
     x_li = []
@@ -157,6 +160,8 @@ def ccm(request):
     avg_val = []
     mois_val = []
     titre = ""
+    ver = False
+
 
     if request.method == "POST":
         va = request.POST.get("value", False)
@@ -173,6 +178,7 @@ def ccm(request):
         avg_val, mois_val = yearly(ind, Ccn)
         
         titre = ind
+        ver = True
 
     plot_mondays_div = plot([Scatter(x=x_li, y=y_li, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
     plot_trimester_div = plot([Scatter(x=ss, y=avg, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
@@ -183,10 +189,96 @@ def ccm(request):
         "plot_trimester_div": plot_trimester_div,
         "plot_year_div": plot_year_div,
         "titre": titre,
+        "ver": ver,
     }
 
-    return render(request, "main/ccm.html", context)
+    return render(request, "main/forms/ccm.html", context)
 
+def auxilaire(request):
+    x_li = []
+    y_li = []
+    avg = []
+    ss = []
+    avg_val = []
+    mois_val = []
+    titre = ""
+    ver = False
+
+
+    if request.method == "POST":
+        va = request.POST.get("value", False)
+        da = request.POST.get("date", False)    
+        ind = request.POST.get("indicateur", False)
+
+        if Auxiliaire.objects.filter(indicat=ind).filter(date=da).exists():
+            print("value exists !")
+        else:
+            Auxiliaire(value = va, date=da, indicat=ind).save()
+
+        x_li, y_li = weekly(ind, Auxiliaire)
+        avg, ss = trimestrely(ind, Auxiliaire)
+        avg_val, mois_val = yearly(ind, Auxiliaire)
+        
+        titre = ind
+        ver = True
+
+    plot_mondays_div = plot([Scatter(x=x_li, y=y_li, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+    plot_trimester_div = plot([Scatter(x=ss, y=avg, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+    plot_year_div = plot([Scatter(x=mois_val, y=avg_val, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+    context = {
+        "plot_mondays_div": plot_mondays_div,
+        "plot_trimester_div": plot_trimester_div,
+        "plot_year_div": plot_year_div,
+        "titre": titre,
+        "ver": ver,
+    }
+
+    return render(request, "main/forms/auxiliaire.html", context)
 
 def index(request):
     return render(request, "main/index.html", {})
+
+def fusion_graphs(request):
+
+    l = [
+        "Poff",
+        "Retours aciérie",
+        "Taux de réalisation base COFI", 
+        "Taux de réalisation rondes HF", 
+        "Taux de casse électrodes", 
+        "nombre coulées four", 
+        "Nombre coulées poche", 
+        "Percée four, percée poche", 
+        "Poff technique (min/coulé)", 
+        "Tonnage horaire (t/h)", 
+        "Consommation ferro (kg/tbb)",
+        "Consommation électrode (EAF + LF) kg/tbb",
+        "30 KV (kwh/tbb)"
+    ]
+
+    w = []
+    t = []
+    y = []
+
+    i = 0
+    for e in l:
+        tmp_1, tmp_2 = weekly(e, Fusion)
+        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tmp_1, tmp_2 = trimestrely(e, Fusion)
+        tri = plot([Scatter(x=tmp_2, y=tmp_1, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tmp_1, tmp_2 = yearly(e, Fusion)
+        year = plot([Scatter(x=tmp_2, y=tmp_1, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+        w.append(week)
+        t.append(tri)
+        y.append(year)
+
+    context = {
+        "l": l,
+        "w": w,
+        "t": t,
+        "y": y, 
+    }
+
+    return render(request, 'main/graphs/fusion_g.html', context)
