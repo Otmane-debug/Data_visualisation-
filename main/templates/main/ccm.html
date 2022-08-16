@@ -1,0 +1,25 @@
+{% extends 'main/fusion.html' %}
+
+{% block titre %}
+<h2>CCM</h2>
+{% endblock  %}
+
+{% block content_1 %}
+<div class="form-group row">
+    <label for="staticEmail" class="col-sm-2 col-form-label">Indicateur</label>
+    <div class="col-sm-10">
+        <select class="form-control form-control" name="indicateur" required=true>
+            <option value="Conformité qualité d'eau : I.R < 4">Conformité qualité d'eau : I.R < 4</option>
+            <option value="Taux réalisation base COFI">Taux réalisation base COFI</option>
+            <option value="Taux de réalisation rondes HF">Taux de réalisation rondes HF</option>
+            <option value="Taux de fermeture de lignes CCM">Taux de fermeture de lignes CCM</option>
+            <option value="Percée tundish, infiltration cnc Tundish">Percée tundish, infiltration cnc Tundish</option>
+            <option value="Nbr Réclamation Clients">Nbr Réclamation Clients</option>
+            <option value="Taux Billettes Ferraillées 12 m">Taux Billettes Ferraillées 12 m</option>
+            <option value="Poff secteur (min/coulé)">Poff secteur ( min / coulée )</option>
+            <option value="Coût Réfractaire CCM Dh/Tbb">Coût Réfractaire CCM Dh/Tbb</option>
+            <option value="Consommation eau">Consommation eau</option>
+        </select>
+    </div>
+</div>
+{% endblock %}

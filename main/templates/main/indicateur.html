@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <div class="container"><nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">El Jorf</a></li>
+              <li class="breadcrumb-item"><a href="#">Aciérie</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Fusion</li>
+            </ol>
+          </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <legend><h1> Fusion : </h1></legend>
+                        <h2>Commun Aciérie :</h2>
+                        <h3>Poff</h3>
+                        <input type="text" name="value_1">
+                        <input type="date" name="date_1">
+                        <br>
+                        <h3>Retours aciérie</h3>
+                        <input type="text" name="value_2">
+                        <input type="date" name="date_2">
+                        <br>
+                        <br>
+                        <h2>Fiabilité :</h2>
+                        <h3>Taux de réalisation base COFI</h3>
+                        <input type="text" name="value_3">
+                        <input type="date" name="date_3">
+                        <h3>Taux de réalisation rondes HF</h3>
+                        <input type="text" name="value_4">
+                        <input type="date" name="date_4">
+                        <br>
+                        <br>
+                        <h2>Productivité & Coût :</h2>
+                        <h3>Taux de casse électrodes</h3>
+                        <input type="text" name="value_5">
+                        <input type="date" name="date_5">
+                        <br>
+                        <h3>nombre coulées four</h3>
+                        <input type="text" name="value_6">
+                        <input type="date" name="date_6">
+                        <br>
+                        <h3>Nombre coulées poche</h3>
+                        <input type="text" name="value_7">
+                        <input type="date" name="date_7">
+                        <br>
+                        <h3>Percée four, percée poche</h3>
+                        <input type="text" name="value_8">
+                        <input type="date" name="date_8">
+                        <br>
+                        <br>
+                        <h2>Productivité :</h2>
+                        <h3>Poff technique (min/coulé)</h3>
+                        <input type="text" name="value_9">
+                        <input type="date" name="date_9">
+                        <br>
+                        <h3>Tonnage horaire (t/h)</h3>
+                        <input type="text" name="value_10">
+                        <input type="date" name="date_10">
+                        <br>
+                        <br>
+                        <h2>Coût :</h2>
+                        <h3>Consommation ferro (kg/tbb)</h3>
+                        <input type="text" name="value_11">
+                        <input type="date" name="date_11">
+                        <br>
+                        <h3>Consommation électrode (EAF + LF) kg/tbb</h3>
+                        <input type="text" name="value_12">
+                        <input type="date" name="date_12">
+                        <br>
+                        <h3>30 KV (kwh/tbb)</h3>
+                        <input type="text" name="value_13">
+                        <input type="date" name="date_13">
+                        <br>
+                        <br><br>
+                        <button  type="submit" name="save" class="btn btn-success">Submit</button>     
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
