@@ -10,57 +10,90 @@
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-            {% block content_1 %}
-              <div class="form-group row">
-                  <label for="indicateur" class="col-sm-2 col-form-label">Indicateur</label>
-                  <div class="col-sm-10">
-                      <select id="indicateur" class="form-control form-control" name="indicateur" required=true>
-                          <option value="Poff">Poff</option>
-                          <option value="Retours aciérie">Retours aciérie</option>
-                          <option value="Taux de réalisation base COFI">Taux de réalisation base COFI</option>
-                          <option value="Taux de réalisation rondes HF">Taux de réalisation rondes HF</option>
-                          <option value="Taux de casse électrodes">Taux de casse électrodes</option>
-                          <option value="nombre coulées four">nombre coulées four</option>
-                          <option value="Nombre coulées poche">Nombre coulées poche</option>
-                          <option value="Percée four, percée poche">Percée four, percée poche</option>
-                          <option value="Poff technique (min/coulé)">Poff technique (min/coulé)</option>
-                          <option value="Tonnage horaire (t/h)">Tonnage horaire (t/h)</option>
-                          <option value="Consommation ferro (kg/tbb)">Consommation ferro (kg/tbb)</option>
-                          <option value="Consommation électrode (EAF + LF) kg/tbb">Consommation électrode (EAF + LF) kg/tbb</option>
-                          <option value="30 KV (kwh/tbb)">30 KV (kwh/tbb)</option>
-                      </select>
-                  </div>
+
+
+
+            <div class="form-group">
+              <label for="val_1" class="col-form-label">Poff</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_1" class="form-control" id="val_1" required=true>
               </div>
-            {% endblock %}
-            
-            <div class="form-group row">
-                <label for="val" class="col-sm-2 col-form-label">Valeur</label>
-                <div class="col-sm-10">
-                    <input type="text" name="value" class="form-control" id="val" placeholder="..." required=true>
-                </div>
             </div>
-            <div class="form-group row">
-                <label for="date" class="col-sm-2 col-form-label">Date</label>
-                <div class="col-sm-10">
-                  <input type="date" name="date" class="form-control" id="date" required=true>
-                </div>
+            <div class="form-group">
+              <label for="val_2" class="col-form-label">Retours aciérie</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_2" class="form-control" id="val_2" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_3" class="col-form-label">Taux de réalisation base COFI</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_3" class="form-control" id="val_3" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_4" class="col-form-label">Taux de réalisation rondes HF</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_4" class="form-control" id="val_4" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_5"  class="col-form-label">Taux de casse électrodes</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_5" class="form-control" id="val_5" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_6" class="col-form-label">Nombre coulées four</label>
+              <div class="col-sm-10" >
+                  <input type="text" name="value_6" class="form-control" id="val_6" required=true>
+              </div>
+            </div>            
+            <div class="form-group">
+              <label for="val_7" class="col-form-label">Nombre coulées poche</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_7" class="form-control" id="val_7" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_8" class="col-form-label">Percée four, percée poche</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_8" class="form-control" id="val_8" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_9" class="col-form-label">Poff technique (min/coulé)</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_9" class="form-control" id="val_9" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_10" class="col-form-label">Tonnage horaire (t/h)</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_10" class="form-control" id="val_10" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_11" class="col-form-label">Consommation ferro (kg/tbb)</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_11" class="form-control" id="val_11" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_12" class="col-form-label">Consommation électrode (EAF + LF) kg/tbb</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_12" class="form-control" id="val_12" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_13" class="col-form-label">30 KV (kwh/tbb)</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_13" class="form-control" id="val_13" required=true>
+              </div>
             </div>
             <button  type="submit" name="save" class="btn btn-success col-12">Submit</button>     
           </form>
     </div>
   </div>
-  {% if ver == True %}
-    <div class="container" style="margin-top:3%;">
-      {% autoescape off %}
-          <h3 style="margin:2%;">{{ titre }}</h3>
-          <h4>Weekly graph :</h4>
-          {{ plot_mondays_div }}
-          <h4>Trimester's graph :</h4>
-          {{ plot_trimester_div }}
-          <h4>Year graph :</h4>
-          {{ plot_year_div }}
-      {% endautoescape %}
-    </div>
-  {% endif %}
 
 {% endblock %}

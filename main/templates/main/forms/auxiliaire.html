@@ -1,23 +1,67 @@
-{% extends 'main/forms/fusion.html' %}
+{% extends 'main/index.html' %}
 
-{% block titre %}
-<h2>Auxiliaire</h2>
-{% endblock  %}
+{% block content %}
 
-{% block content_1 %}
-<div class="form-group row">
-    <label for="staticEmail" class="col-sm-2 col-form-label">Indicateur</label>
-    <div class="col-sm-10">
-        <select class="form-control form-control" name="indicateur" required=true>
-            <option value="Taux d'humidité charbon">Taux d'humidité charbon</option>
-            <option value="Taux réalisation base COFI">Taux réalisation base COFI</option>
-            <option value="Taux de réalisation rondes HF">Taux de réalisation rondes HF</option>
-            <option value="Taux de disponibilités ponts">Taux de disponibilités ponts</option>
-            <option value="Taux de disponibilités Poche & tundish">Taux de disponibilités Poche & tundish</option>
-            <option value="Incident réfrataire (chute, percée...)">Incident réfrataire (chute, percée...)</option>
-            <option value="Coût réfractaire four & poche">Coût réfractaire four & poche</option>
-            <option value="20 KV">20 KV</option>
-        </select>
+  <div class="container">
+    {% block titre %}
+      <h2>AUXILIAIRE</h2>
+    {% endblock  %}
+
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="val_1" class="col-form-label">Taux d'humidité charbon</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_1" class="form-control" id="val_1" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_2" class="col-form-label">Taux réalisation base COFI</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_2" class="form-control" id="val_2" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_3" class="col-form-label">Taux de réalisation rondes HF</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_3" class="form-control" id="val_3" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_4" class="col-form-label">Taux de disponibilités ponts</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_4" class="form-control" id="val_4" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_5"  class="col-form-label">Taux de disponibilités Poche & tundish</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_5" class="form-control" id="val_5" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_6" class="col-form-label">Incident réfrataire (chute, percée...)</label>
+              <div class="col-sm-10" >
+                  <input type="text" name="value_6" class="form-control" id="val_6" required=true>
+              </div>
+            </div>            
+            <div class="form-group">
+              <label for="val_7" class="col-form-label">Coût réfractaire four & poche</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_7" class="form-control" id="val_7" required=true>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="val_8" class="col-form-label">20 KV</label>
+              <div class="col-sm-10">
+                  <input type="text" name="value_8" class="form-control" id="val_8" required=true>
+              </div>
+            </div>
+            <button  type="submit" name="save" class="btn btn-success col-12">Submit</button>     
+          </form>
     </div>
-</div>
+  </div>
+
 {% endblock %}
