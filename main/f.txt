@@ -99,3 +99,149 @@ if request.method == "POST":
 Auxiliaire
 
 ####################
+
+
+    l = [
+        "Poff",
+        "Retours aciérie",
+        "Taux de réalisation base COFI", 
+        "Taux de réalisation rondes HF", 
+        "Taux de casse électrodes", 
+        "nombre coulées four", 
+        "Nombre coulées poche", 
+        "Percée four, percée poche", 
+        "Poff technique (min/coulé)", 
+        "Tonnage horaire (t/h)", 
+        "Consommation ferro (kg/tbb)",
+        "Consommation électrode (EAF + LF) kg/tbb",
+        "30 KV (kwh/tbb)"
+    ]
+
+    w = []
+    t = []
+    y = []
+
+    for e in l:
+        tmp_1, tmp_2 = weekly(e, Fusion)
+        tmp_3, tmp_4 = trimestrely(e, Fusion)
+        tmp_5, tmp_6 = yearly(e, Fusion)
+
+        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+        w.append(week)
+        t.append(tri)
+        y.append(year)
+
+    context = {
+        "l": l,
+        "w": w,
+        "t": t,
+        "y": y, 
+    }
+^ fusion_graph 
+
+#####################
+
+
+    l =[
+        "Conformité qualité d'eau : I.R < 4",
+        "Taux réalisation base COFI",
+        "Taux de réalisation rondes HF",
+        "Taux de fermeture de lignes CCM",
+        "Percée tundish, infiltration cnc Tundish",
+        "Nbr Réclamation Clients",
+        "Taux Billettes Ferraillées 12 m",
+        "Poff secteur (min/coulé)",
+        "Coût Réfractaire CCM Dh/Tbb",
+        "Consommation eau"
+    ]
+####################################################################
+    fusion = []
+
+
+    ii = 0
+
+    xx = []
+    xxx = []
+    yyy = []
+    yy = []
+    n = []
+
+    w = []
+    t = []
+    y = []
+
+
+
+    for e in l:
+        tmp_1, tmp_2 = weekly(e, Ccn)
+        tmp_3, tmp_4 = trimestrely(e, Ccn)
+        tmp_5, tmp_6 = yearly(e, Ccn)
+
+        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+        w.append(week)
+        t.append(tri)
+        y.append(year)
+
+    context = {
+        "l": l,
+        "w": w,
+        "t": t,
+        "y": y, 
+    }
+
+    ^ ccn graphs
+
+    ##############
+
+
+    l = [
+        "Taux d'humidité charbon",
+        "Taux réalisation base COFI",
+        "Taux de réalisation rondes HF",
+        "Taux de disponibilités ponts",
+        "Taux de disponibilités Poche & tundish",
+        "Incident réfrataire (chute, percée...)",
+        "Coût réfractaire four & poche",
+        "20 KV"
+    ]
+    
+    w = []
+    t = []
+    y = []
+
+    for e in l:
+        tmp_1, tmp_2 = weekly(e, Auxiliaire)
+        tmp_3, tmp_4 = trimestrely(e, Auxiliaire)
+        tmp_5, tmp_6 = yearly(e, Auxiliaire)
+
+        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+
+        w.append(week)
+        t.append(tri)
+        y.append(year)
+
+    context = {
+        "l": l,
+        "w": w,
+        "t": t,
+        "y": y, 
+    }
+
+    ^ auxiliaire graph
+
+##################
+
+
+>>> for i in KPI_secteur.objects.filter(secteur="Fusion").values():
+...     i['indicateur_perfor']
+...     x = KPI_secteur.objects.get(id = i['id'])
+...     for y in x.data_set.all().values():
+...             y['date']

@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from .models import *
 from plotly.offline import plot
@@ -10,20 +11,14 @@ from datetime import timedelta, date
 def weekly(i, db):
     x_li = []    
     y_li = []
-    
+
+
     date_object = date(2022, 1, 1)
     date_object = date_object + timedelta(days=-date_object.weekday(), weeks=1)
 
     while date_object <= timezone.now().date():
-        if db.objects.filter(indicat=i).filter(date=str(date_object)).values().exists() == False:
-            print("Pas de valeur dans la semaine " + str(date_object))
-        else:
-            x_li.append(date_object) 
-
-        if db.objects.filter(indicat=i).filter(date=str(date_object)).exists() == False:
-            print("No value in " + str(date_object))
-        else:
-            y_li.append(db.objects.filter(indicat=i).filter(date=str(date_object)).values()[0]['value'])
+        x_li.append(date_object) 
+        y_li.append(db.objects.filter(indicat=i).filter(date=str(date_object)).values()[0]['value'])
 
         date_object += timedelta(days=7)
 
@@ -112,169 +107,111 @@ def yearly(indi, db):
 
 
 def fusion(request):
-    x_li = []
-    y_li = []
-    avg = []
-    ss = []
-    avg_val = []
-    mois_val = []
-    titre = ""
-    ver = False
 
-    
+    if request.method == "POST":
+        v = []
+
+        v.append(request.POST["value_1"])
+        v.append(request.POST["value_2"])
+        v.append(request.POST["value_3"])
+        v.append(request.POST["value_4"])
+        v.append(request.POST["value_5"])
+        v.append(request.POST["value_6"])
+        v.append(request.POST["value_7"])
+        v.append(request.POST["value_8"])
+        v.append(request.POST["value_9"])
+        v.append(request.POST["value_10"])
+        v.append(request.POST["value_11"])
+        v.append(request.POST["value_12"])
+        v.append(request.POST["value_13"])
+
+        i = 0
+        for e in KPI_secteur.objects.filter(secteur="Fusion").order_by('id'):
+            e.data_set.create(value=v[i], date=date(2022, 12, 5)).save()
+            i += 1
+
+
     return render(request, "main/forms/fusion.html", {})
 
 def ccm(request):
-    x_li = []
-    y_li = []
-    avg = []
-    ss = []
-    avg_val = []
-    mois_val = []
-    titre = ""
-    ver = False
+    
+    if request.method == "POST":
+        v = []    
+
+        v.append(request.POST["value_1"])
+        v.append(request.POST["value_2"])
+        v.append(request.POST["value_3"])
+        v.append(request.POST["value_4"])
+        v.append(request.POST["value_5"])
+        v.append(request.POST["value_6"])
+        v.append(request.POST["value_7"])
+        v.append(request.POST["value_8"])
+        v.append(request.POST["value_9"])
+        v.append(request.POST["value_10"])
+
+
+        i=0
+        for e in KPI_secteur.objects.filter(secteur="CCM").order_by('id'):
+            e.data_set.create(value=v[i], date=date(2022, 8, 22)).save()
+            i += 1
+
+        
 
     return render(request, "main/forms/ccm.html", {})
 
-def auxilaire(request):
-    x_li = []
-    y_li = []
-    avg = []
-    ss = []
-    avg_val = []
-    mois_val = []
-    titre = ""
-    ver = False
 
+def auxilaire(request):
+    if request.method == "POST":
+        v = []    
+
+        v.append(request.POST["value_1"])
+        v.append(request.POST["value_2"])
+        v.append(request.POST["value_3"])
+        v.append(request.POST["value_4"])
+        v.append(request.POST["value_5"])
+        v.append(request.POST["value_6"])
+        v.append(request.POST["value_7"])
+        v.append(request.POST["value_8"])
+
+        i=0
+        for e in KPI_secteur.objects.filter(secteur="Auxiliaire").order_by('id'):
+            e.data_set.create(value=v[i], date=date(2022, 9, 5)).save()
+            i += 1
 
 
     return render(request, "main/forms/auxiliaire.html", {})
+
 
 def index(request):
     return render(request, "main/index.html", {})
 
 def fusion_graphs(request):
+    plot_w = []
 
-    l = [
-        "Poff",
-        "Retours aciérie",
-        "Taux de réalisation base COFI", 
-        "Taux de réalisation rondes HF", 
-        "Taux de casse électrodes", 
-        "nombre coulées four", 
-        "Nombre coulées poche", 
-        "Percée four, percée poche", 
-        "Poff technique (min/coulé)", 
-        "Tonnage horaire (t/h)", 
-        "Consommation ferro (kg/tbb)",
-        "Consommation électrode (EAF + LF) kg/tbb",
-        "30 KV (kwh/tbb)"
-    ]
+    
+    for e in KPI_secteur.objects.filter(secteur="Fusion"):  
+        x_l = []
+        y_l = []
+        
+        x = KPI_secteur.objects.get(id=e.id)
+        
+        for d in  x.data_set.all().values():
+            y_l.append(d['value'])
+            x_l.append(d['date'])
 
-    w = []
-    t = []
-    y = []
-
-    for e in l:
-        tmp_1, tmp_2 = weekly(e, Fusion)
-        tmp_3, tmp_4 = trimestrely(e, Fusion)
-        tmp_5, tmp_6 = yearly(e, Fusion)
-
-        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-
-        w.append(week)
-        t.append(tri)
-        y.append(year)
+        week = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        plot_w.append(week)
 
     context = {
-        "l": l,
-        "w": w,
-        "t": t,
-        "y": y, 
-    }
+        "plot_w": plot_w, 
+        }
 
     return render(request, 'main/graphs/fusion_g.html', context)
 
 def ccn_graphs(request):
 
-    l =[
-        "Conformité qualité d'eau : I.R < 4",
-        "Taux réalisation base COFI",
-        "Taux de réalisation rondes HF",
-        "Taux de fermeture de lignes CCM",
-        "Percée tundish, infiltration cnc Tundish",
-        "Nbr Réclamation Clients",
-        "Taux Billettes Ferraillées 12 m",
-        "Poff secteur (min/coulé)",
-        "Coût Réfractaire CCM Dh/Tbb",
-        "Consommation eau"
-    ]
-
-    w = []
-    t = []
-    y = []
-
-    for e in l:
-        tmp_1, tmp_2 = weekly(e, Ccn)
-        tmp_3, tmp_4 = trimestrely(e, Ccn)
-        tmp_5, tmp_6 = yearly(e, Ccn)
-
-        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-
-        w.append(week)
-        t.append(tri)
-        y.append(year)
-
-    context = {
-        "l": l,
-        "w": w,
-        "t": t,
-        "y": y, 
-    }
-
-
-    return render(request, "main/graphs/ccn_g.html", context)
+    return render(request, "main/graphs/ccn_g.html", {})
 
 def auxiliaire_graphs(request):
 
-    l = [
-        "Taux d'humidité charbon",
-        "Taux réalisation base COFI",
-        "Taux de réalisation rondes HF",
-        "Taux de disponibilités ponts",
-        "Taux de disponibilités Poche & tundish",
-        "Incident réfrataire (chute, percée...)",
-        "Coût réfractaire four & poche",
-        "20 KV"
-    ]
-    
-    w = []
-    t = []
-    y = []
-
-    for e in l:
-        tmp_1, tmp_2 = weekly(e, Auxiliaire)
-        tmp_3, tmp_4 = trimestrely(e, Auxiliaire)
-        tmp_5, tmp_6 = yearly(e, Auxiliaire)
-
-        week = plot([Scatter(x=tmp_1, y=tmp_2, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        tri = plot([Scatter(x=tmp_4, y=tmp_3, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        year = plot([Scatter(x=tmp_6, y=tmp_5, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-
-        w.append(week)
-        t.append(tri)
-        y.append(year)
-
-    context = {
-        "l": l,
-        "w": w,
-        "t": t,
-        "y": y, 
-    }
-
-    return render(request, 'main/graphs/auxiliaire_g.html', context)
-
+    return render(request, 'main/graphs/auxiliaire_g.html', {})
