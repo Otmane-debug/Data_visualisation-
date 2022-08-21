@@ -186,13 +186,20 @@ def index(request):
     return render(request, "main/index.html", {})
 
 def fusion_graphs(request):
+    nom = []
     plot_w = []
+    plot_tri = []
+
+
+    for e in KPI_secteur.objects.filter(secteur="Fusion"):  
+
+        nom.append(e.indicateur_perfor)
 
     
     for e in KPI_secteur.objects.filter(secteur="Fusion"):  
         x_l = []
         y_l = []
-        
+
         x = KPI_secteur.objects.get(id=e.id)
         
         for d in  x.data_set.all().values():
@@ -202,8 +209,63 @@ def fusion_graphs(request):
         week = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
         plot_w.append(week)
 
+    for e in KPI_secteur.objects.filter(secteur="Fusion"):  
+        x_l = []
+        y_l = []        
+        x = KPI_secteur.objects.get(id=e.id)
+
+        if x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values():
+            sum = 0
+            l = len(x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values())
+            for d in  x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S1")
+        else:
+            print('no data')
+
+        if x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values():
+            sum = 0
+            l = len(x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values())
+            for d in  x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S2")
+        else:
+            print('no data')
+
+        if x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values():
+            sum = 0
+            l = len(x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values())
+            for d in  x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S3")
+        else:
+            print('no data')
+
+        sum = 0
+
+        if x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values():
+            l = len(x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values())
+            for d in  x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S4")
+        else:
+            print('no data')
+
+        tri = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        plot_tri.append(tri)
+
     context = {
-        "plot_w": plot_w, 
+        "nom": nom,
+        "plot_w": plot_w,
+        "plot_tri": plot_tri, 
         }
 
     return render(request, 'main/graphs/fusion_g.html', context)
