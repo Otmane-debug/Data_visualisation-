@@ -9,101 +9,109 @@ from datetime import timedelta, date
 
 
 def weekly(i, db):
-    x_li = []    
-    y_li = []
 
+    plots = []
+    
+    for e in db.objects.filter(secteur=i):  
+        x_l = []
+        y_l = []
+    
+        x = db.objects.get(id=e.id)
+        
+        for d in  x.data_set.all().values():
+            y_l.append(d['value'])
+            x_l.append(d['date'])
 
-    date_object = date(2022, 1, 1)
-    date_object = date_object + timedelta(days=-date_object.weekday(), weeks=1)
+        week = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        plots.append(week)
 
-    while date_object <= timezone.now().date():
-        x_li.append(date_object) 
-        y_li.append(db.objects.filter(indicat=i).filter(date=str(date_object)).values()[0]['value'])
-
-        date_object += timedelta(days=7)
-
-    return x_li, y_li
+    return plots
 
 def trimestrely(i, db):
-    avg = []
-    ss = []
-        
-    if db.objects.filter(indicat=i).filter(date__range=["2022-01-01", "2022-03-31"]):
-        sum = 0
-        le = len(db.objects.filter(indicat=i).filter(date__range=["2022-01-01", "2022-03-31"]))
-            
-        for v in db.objects.filter(indicat=i).filter(date__range=["2022-01-01", "2022-03-31"]):
-            sum += v.value
-            
-        ss.append("S1")
-        avg.append(round(sum/le, 3))
-    else:
-        print("date__range=[\"2022-01-01\", \"2022-03-31\"] :No Data Exist")
-            
-    if db.objects.filter(indicat=i).filter(date__range=["2022-04-01", "2022-06-30"]):
-        sum = 0
-        le = len(db.objects.filter(indicat=i).filter(date__range=["2022-04-01", "2022-06-30"]))
-            
-        for v in db.objects.filter(indicat=i).filter(date__range=["2022-04-01", "2022-06-30"]):
-            sum += v.value
-            
-        ss.append("S2")
-        avg.append(round(sum/le, 3))
-    else:
-        print("date__range=[\"2022-04-01\", \"2022-06-30\"] :No Data Exist")
-            
-    if db.objects.filter(indicat=i).filter(date__range=["2022-07-01", "2022-09-30"]):
-        sum = 0
-        le = len(db.objects.filter(indicat=i).filter(date__range=["2022-07-01", "2022-09-30"]))
-            
-        for v in db.objects.filter(indicat=i).filter(date__range=["2022-07-01", "2022-09-30"]):
-            sum += v.value
-            
-        ss.append("S3")
-        avg.append(round(sum/le, 3))
-    else:
-        print("date__range=[\"2022-07-01\", \"2022-09-30\"] :No Data Exist")
-        
-    if db.objects.filter(indicat=i).filter(date__range=["2022-10-01", "2022-12-31"]):
-        sum = 0
-        le = len(db.objects.filter(indicat=i).filter(date__range=["2022-10-01", "2022-12-31"]))
-            
-        for v in db.objects.filter(indicat=i).filter(date__range=["2022-10-01", "2022-12-31"]):
-            sum += v.value
+    plots = []
+    
+    
+    for e in db.objects.filter(secteur=i):  
+        x_l = []
+        y_l = []        
+        x = db.objects.get(id=e.id)
 
-        ss.append("S4")
-        avg.append(round(sum/le, 3))
-    else:
-        print("date__range=[\"2022-10-01\", \"2022-12-31\"] :No Data Exist")
+        if x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values():
+            sum = 0
+            l = len(x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values())
+            for d in  x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values():
+                sum += d['value']
 
-    return avg, ss
+            y_l.append(round(sum/l, 3))
+            x_l.append("S1")
+        else:
+            print('no data')
+
+        if x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values():
+            sum = 0
+            l = len(x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values())
+            for d in  x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S2")
+        else:
+            print('no data')
+
+        if x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values():
+            sum = 0
+            l = len(x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values())
+            for d in  x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S3")
+        else:
+            print('no data')
+
+        sum = 0
+
+        if x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values():
+            l = len(x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values())
+            for d in  x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values():
+                sum += d['value']
+
+            y_l.append(round(sum/l, 3))
+            x_l.append("S4")
+        else:
+            print('no data')
+
+        tri = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        plots.append(tri)
+
+    return plots
 
 def yearly(indi, db):
-    avg_val = []
-    mois_val = []
     
-    for i in range(1, 13):
-        if db.objects.filter(indicat=indi).filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)).exists() == False:
-            break
-        elif db.objects.filter(indicat=indi).filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)).exists():
-            mois_val.append(str(i).zfill(2))        
+    plots = []
     
-    for i in range (1, 13):
-        if db.objects.filter(indicat=indi).filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)).exists() == False:
-            break
-        elif db.objects.filter(indicat=indi).filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)).exists():
-            sum = 0
-            l = len(db.objects.filter(indicat=indi).filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)))            
-                
-            for j in db.objects.filter(indicat=indi).filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)):
-                sum += j.value
-                    
-            avg_tmp = sum / l
-            avg_tmp = round(avg_tmp, 3)
-                
-            avg_val.append(avg_tmp)
+    for e in KPI_secteur.objects.filter(secteur="Fusion"):
+        x_l = []
+        y_l = []
 
-    return avg_val, mois_val
+        for i in range (1, 13):
+            sum = 0
+            if e.data_set.filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)).exists() == False:
+                print("no data")
+                continue
+            else:
+                l = len(e.data_set.filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)))
+                for ee in e.data_set.filter(date__startswith=str(timezone.now().year) + "-" +str(i).zfill(2)).values():
+                   sum += ee['value']
+                
+                y_l.append(round(sum/l, 3))
+                x_l.append(str(i).zfill(2))
+
+
+        year = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
+        plots.append(year)
+    
+    return plots
 
 
 def fusion(request):
@@ -159,7 +167,6 @@ def ccm(request):
 
     return render(request, "main/forms/ccm.html", {})
 
-
 def auxilaire(request):
     if request.method == "POST":
         v = []    
@@ -181,99 +188,72 @@ def auxilaire(request):
 
     return render(request, "main/forms/auxiliaire.html", {})
 
-
 def index(request):
     return render(request, "main/index.html", {})
+
 
 def fusion_graphs(request):
     nom = []
     plot_w = []
     plot_tri = []
-
+    plot_y = []
 
     for e in KPI_secteur.objects.filter(secteur="Fusion"):  
-
         nom.append(e.indicateur_perfor)
 
-    
-    for e in KPI_secteur.objects.filter(secteur="Fusion"):  
-        x_l = []
-        y_l = []
-
-        x = KPI_secteur.objects.get(id=e.id)
-        
-        for d in  x.data_set.all().values():
-            y_l.append(d['value'])
-            x_l.append(d['date'])
-
-        week = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        plot_w.append(week)
-
-    for e in KPI_secteur.objects.filter(secteur="Fusion"):  
-        x_l = []
-        y_l = []        
-        x = KPI_secteur.objects.get(id=e.id)
-
-        if x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values():
-            sum = 0
-            l = len(x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values())
-            for d in  x.data_set.filter(date__range=["2022-01-01", "2022-03-31"]).values():
-                sum += d['value']
-
-            y_l.append(round(sum/l, 3))
-            x_l.append("S1")
-        else:
-            print('no data')
-
-        if x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values():
-            sum = 0
-            l = len(x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values())
-            for d in  x.data_set.filter(date__range=["2022-04-01", "2022-06-30"]).values():
-                sum += d['value']
-
-            y_l.append(round(sum/l, 3))
-            x_l.append("S2")
-        else:
-            print('no data')
-
-        if x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values():
-            sum = 0
-            l = len(x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values())
-            for d in  x.data_set.filter(date__range=["2022-07-01", "2022-09-30"]).values():
-                sum += d['value']
-
-            y_l.append(round(sum/l, 3))
-            x_l.append("S3")
-        else:
-            print('no data')
-
-        sum = 0
-
-        if x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values():
-            l = len(x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values())
-            for d in  x.data_set.filter(date__range=["2022-10-01", "2022-12-31"]).values():
-                sum += d['value']
-
-            y_l.append(round(sum/l, 3))
-            x_l.append("S4")
-        else:
-            print('no data')
-
-        tri = plot([Scatter(x=x_l, y=y_l, mode='lines', name='test', opacity=0.8, marker_color='green')], output_type='div', show_link=False, link_text="")
-        plot_tri.append(tri)
+    plot_w = weekly("Fusion", KPI_secteur)
+    plot_tri = trimestrely("Fusion", KPI_secteur)
+    plot_y = yearly("Fusion", KPI_secteur)
 
     context = {
         "nom": nom,
         "plot_w": plot_w,
-        "plot_tri": plot_tri, 
+        "plot_tri": plot_tri,
+        "plot_y": plot_y, 
         }
 
     return render(request, 'main/graphs/fusion_g.html', context)
 
-def ccn_graphs(request):
+def ccm_graphs(request):
+    nom = []
+    plot_w = []
+    plot_tri = []
+    plot_y = []
 
-    return render(request, "main/graphs/ccn_g.html", {})
+    for e in KPI_secteur.objects.filter(secteur="CCM"):  
+        nom.append(e.indicateur_perfor)
+
+    plot_w = weekly("CCM", KPI_secteur)
+    plot_tri = trimestrely("CCM", KPI_secteur)
+    plot_y = yearly("CCM", KPI_secteur)
+
+    context = {
+        "nom": nom,
+        "plot_w": plot_w,
+        "plot_tri": plot_tri,
+        "plot_y": plot_y, 
+        }
+
+    return render(request, "main/graphs/ccm_g.html", context)
 
 def auxiliaire_graphs(request):
+    nom = []
+    plot_w = []
+    plot_tri = []
+    plot_y = []
 
-    return render(request, 'main/graphs/auxiliaire_g.html', {})
+    for e in KPI_secteur.objects.filter(secteur="Auxiliaire"):  
+        nom.append(e.indicateur_perfor)
+
+    plot_w = weekly("Auxiliaire", KPI_secteur)
+    plot_tri = trimestrely("Auxiliaire", KPI_secteur)
+    plot_y = yearly("Auxiliaire", KPI_secteur)
+
+    context = {
+        "nom": nom,
+        "plot_w": plot_w,
+        "plot_tri": plot_tri,
+        "plot_y": plot_y, 
+        }
+
+    return render(request, 'main/graphs/auxiliaire_g.html', context)
