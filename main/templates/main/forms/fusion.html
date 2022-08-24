@@ -2,17 +2,21 @@
 
 {% block content %}
 
-  <div class="container">
+  <div class="container" style="margin-bottom: 4%;">
     {% block titre %}
     <h2 style="text-align: center;margin-top: 6%;margin-bottom:4.5%">FUSION</h2>
     {% endblock  %}
 
+    {% if l == False %}
+      <div class="alert alert-danger" role="alert">
+        Vous ne pouvez pas ajouter les données!
+        L'ajout sera possible le lundi.
+      </div>
+    {% endif %}
+
     <div class="container">
         <form method="POST">
             {% csrf_token %}
-
-
-
             <div class="form-group">
               <label for="val_1" class="col-form-label">Poff</label>
               <div class="col-sm-12">
@@ -91,7 +95,12 @@
                   <input type="text" name="value_13" class="form-control" id="val_13" required=true>
               </div>
             </div>
-            <button  type="submit" name="save" class="btn btn-success col-12">Submit</button>     
+            {% if l == False %}
+            <button  type="submit" name="save" class="btn btn-secondary col-12" disabled = true>valider</button>     
+            {% endif %}
+            {% if l == True %}
+            <button  type="submit" name="save" class="btn btn-secondary col-12">valider</button>     
+            {% endif %}
           </form>
     </div>
   </div>

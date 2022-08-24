@@ -115,6 +115,7 @@ def yearly(indi, db):
 
 
 def fusion(request):
+    l = False
 
     if request.method == "POST":
         v = []
@@ -138,11 +139,14 @@ def fusion(request):
             e.data_set.create(value=v[i], date=date(2022, 12, 5)).save()
             i += 1
 
+    if timezone.now().date().weekday() == 0:
+        l = True
 
-    return render(request, "main/forms/fusion.html", {})
+    return render(request, "main/forms/fusion.html", {"l" : l})
 
 def ccm(request):
-    
+    l = False
+
     if request.method == "POST":
         v = []    
 
@@ -163,11 +167,14 @@ def ccm(request):
             e.data_set.create(value=v[i], date=date(2022, 8, 22)).save()
             i += 1
 
-        
+    if timezone.now().date().weekday() == 0:
+        l = True        
 
-    return render(request, "main/forms/ccm.html", {})
+    return render(request, "main/forms/ccm.html", {"l" : l})
 
 def auxilaire(request):
+    l = False 
+
     if request.method == "POST":
         v = []    
 
@@ -185,8 +192,10 @@ def auxilaire(request):
             e.data_set.create(value=v[i], date=date(2022, 9, 5)).save()
             i += 1
 
+    if timezone.now().date().weekday() == 0:
+        l = True
 
-    return render(request, "main/forms/auxiliaire.html", {})
+    return render(request, "main/forms/auxiliaire.html", {"l": l})
 
 def index(request):
     return render(request, "main/index.html", {})
@@ -254,6 +263,7 @@ def auxiliaire_graphs(request):
         "plot_w": plot_w,
         "plot_tri": plot_tri,
         "plot_y": plot_y, 
+        "current_year": timezone.now().date().year,
         }
 
     return render(request, 'main/graphs/auxiliaire_g.html', context)
