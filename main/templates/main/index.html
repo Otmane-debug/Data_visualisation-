@@ -73,7 +73,7 @@
               <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Fotothek_df_n-32_0000123_Metallurge_f%C3%BCr_H%C3%BCttentechnik.jpg" class="img-fluid" alt="Image ">
             </div>
             <div class="col-12 col-sm order-sm-first col-md">
-                <h4>Aciére de SONASID</h4>
+                <h4>Aciérie de SONASID</h4>
                 <p class="d-none d-sm-block">L'aciérie SONASID Jorf Lasfar a démarrée le 18 août 2005 et elle est considérée parmi les premières aciéries 
                   au Maroc avec une capacité de production variant entre 800.000 et 1.000.000 tonnes de billettes par an et qui 
                   alimente des deux laminoirs des deux sites (Nador et Jorf Lasfar). </p>
@@ -128,7 +128,7 @@
 
     {% endblock %}
 
-
+    {% autoescape off %}
     <footer class="text-center text-lg-start">
         <!-- Copyright -->
       <div class="text-center text-white p-3" style="background-color: rgba(0, 0, 0, 0.2);">
@@ -137,6 +137,8 @@
       </div>
         <!-- Copyright -->
     </footer>
+    {% endautoescape %}
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
