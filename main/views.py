@@ -258,12 +258,15 @@ def auxiliaire_graphs(request):
     plot_tri = trimestrely("Auxiliaire", KPI_secteur)
     plot_y = yearly("Auxiliaire", KPI_secteur)
 
+
+    current_year = 2022
+
     context = {
         "nom": nom,
         "plot_w": plot_w,
         "plot_tri": plot_tri,
         "plot_y": plot_y, 
-        "current_year": timezone.now().date().year,
+        "current_year": current_year,
         }
 
     return render(request, 'main/graphs/auxiliaire_g.html', context)
